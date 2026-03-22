@@ -1,1 +1,77 @@
+# ─── Python ──────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
+# ─── Virtual environments ─────────────────────────────────────
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ─── Environment & secrets ───────────────────────────────────
+.env
+*.env
+!.env.example
+
+# ─── Data files (large CSVs) ─────────────────────────────────
+data/raw/*.csv
+data/processed/*.csv
+# Keep directory structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# ─── Trained models ──────────────────────────────────────────
+models/*.pkl
+models/*.joblib
+# Keep metrics
+!models/metrics.json
+!models/feature_importance.csv
+
+# ─── Jupyter ─────────────────────────────────────────────────
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# ─── IDEs ────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── Logs & temp ─────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
+logs/
+
+# ─── Testing ─────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
