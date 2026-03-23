@@ -330,7 +330,7 @@ app = dash.Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     title="Supply Chain Optimizer | 3PL Intelligence",
 )
-server = app.server  # ← required for Gunicorn / deployment
+
 
 app.index_string = '''<!DOCTYPE html>
 <html>
@@ -385,8 +385,8 @@ header = html.Div([
         ], style={"display":"flex","alignItems":"center","gap":24}),
 
         html.Div([
-    dcc.Markdown(TRUCK_SVG, dangerously_allow_html=True),
-], style={"display":"flex","alignItems":"center","justifyContent":"center","flex":1}),
+            html.Div(dangerouslySetInnerHTML={"__html": TRUCK_SVG}),
+        ], style={"display":"flex","alignItems":"center","justifyContent":"center","flex":1}),
 
         html.Div([
             html.Div([
@@ -686,8 +686,11 @@ def update_scenario(fleet, drivers, wh, radius, staff):
         result_card("CO₂ FOOTPRINT",         f"{co2:,.0f}kg",  C["purple"], "estimated monthly"),
     ]
 
-# ── Run ───────────────────────────────────────────────────────────────────────
+# ── Expose server for Gunicorn (must be at module level) ─────────────────────
+server = app.server
+
+# ── Run locally ───────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8050))
-    print(f"\n🚛 Supply Chain Optimizer starting on http://localhost:{port}")
-    app.run(debug=False, host="0.0.0.0", port=port)
+    _port = int(os.environ.get("PORT", 8050))
+    print(f"\n🚛 Supply Chain Optimizer starting on http://localhost:{_port}")
+    app.run(debug=False, host="0.0.0.0", port=_port)
