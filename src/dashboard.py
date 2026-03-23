@@ -385,7 +385,7 @@ header = html.Div([
         ], style={"display":"flex","alignItems":"center","gap":24}),
 
         html.Div([
-            html.Div(dangerouslySetInnerHTML={"__html": TRUCK_SVG}),
+            dcc.Markdown(TRUCK_SVG, dangerously_allow_html=True),
         ], style={"display":"flex","alignItems":"center","justifyContent":"center","flex":1}),
 
         html.Div([
