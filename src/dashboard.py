@@ -448,11 +448,45 @@ def overview_body():
     ])
 
 def routes_body():
+    # Check if folium map exists
+    map_path = os.path.join(BASE, "..", "assets", "route_map.html")
+    map_exists = os.path.exists(map_path)
+
     return html.Div([
+        # ── Folium Interactive Map ─────────────────────────────────────────
         html.Div([
-            html.Div([dcc.Graph(figure=make_route_bar(),      config={"displayModeBar":False})], className="chart-card"),
-            html.Div([dcc.Graph(figure=make_scatter_delay(),  config={"displayModeBar":False})], className="chart-card"),
+            html.Div("LIVE INTERACTIVE ROUTE MAP", className="section-title"),
+            html.Div("SOUTH AFRICA DELIVERY NETWORK · ANIMATED ROUTES · COLOUR = EFFICIENCY",
+                     className="section-sub"),
+            html.Iframe(
+                src="/assets/route_map.html",
+                style={
+                    "width":        "100%",
+                    "height":       "480px",
+                    "border":       f"1px solid {C['border']}",
+                    "borderRadius": "3px",
+                    "display":      "block",
+                }
+            ) if map_exists else html.Div([
+                html.Div("⚠  Route map not generated yet.",
+                         style={"color": C["accent"], "fontSize": 12,
+                                "fontFamily": "Share Tech Mono,monospace", "marginBottom": 8}),
+                html.Div("Run:  python src/route_map.py  to generate the interactive map.",
+                         style={"color": C["muted"], "fontSize": 11,
+                                "fontFamily": "Share Tech Mono,monospace"}),
+            ], style={"padding": 24, "background": "#060a0f",
+                      "border": f"1px solid {C['border']}", "borderRadius": 3}),
+        ], className="chart-card"),
+
+        # ── Charts Row ─────────────────────────────────────────────────────
+        html.Div([
+            html.Div([dcc.Graph(figure=make_route_bar(),     config={"displayModeBar":False})],
+                     className="chart-card"),
+            html.Div([dcc.Graph(figure=make_scatter_delay(), config={"displayModeBar":False})],
+                     className="chart-card"),
         ], className="grid-2"),
+
+        # ── Route Performance Table ────────────────────────────────────────
         html.Div([
             html.Div("ROUTE PERFORMANCE TABLE", className="section-title"),
             html.Div("FULL 3PL NETWORK · RANKED BY EFFICIENCY", className="section-sub"),
@@ -460,13 +494,16 @@ def routes_body():
                 html.Thead(html.Tr([
                     html.Th(col, style={
                         "padding":"10px 14px","color":C["accent"],"fontSize":10,
-                        "letterSpacing":2,"borderBottom":f"1px solid {C['border']}","textAlign":"left",
-                    }) for col in ["ROUTE","DISTANCE","SHIPMENTS","EFFICIENCY","DELAY RATE","AVG DELAY","REVENUE"]
+                        "letterSpacing":2,"borderBottom":f"1px solid {C['border']}",
+                        "textAlign":"left",
+                    }) for col in ["ROUTE","DISTANCE","SHIPMENTS","EFFICIENCY",
+                                   "DELAY RATE","AVG DELAY","REVENUE"]
                 ])),
                 html.Tbody([
                     html.Tr([
                         html.Td(f"{r['origin'][:3]}→{r['destination'][:3]}",
-                                style={"padding":"10px 14px","fontFamily":"Bebas Neue,sans-serif",
+                                style={"padding":"10px 14px",
+                                       "fontFamily":"Bebas Neue,sans-serif",
                                        "fontSize":15,"color":C["text"]}),
                         html.Td(f"{r['distance_km']} km",
                                 style={"padding":"10px 14px","color":C["muted"],"fontSize":11}),
@@ -474,16 +511,17 @@ def routes_body():
                                 style={"padding":"10px 14px","color":C["muted"],"fontSize":11}),
                         html.Td(html.Div([
                             html.Div(style={
-                                "width":f"{r['efficiency_pct']}%","height":6,
-                                "background": C["green"] if r["efficiency_pct"]>=88
-                                              else C["accent"] if r["efficiency_pct"]>=75
+                                "width":  f"{r['efficiency_pct']}%",
+                                "height": 6,
+                                "background": C["green"] if r["efficiency_pct"] >= 88
+                                              else C["accent"] if r["efficiency_pct"] >= 75
                                               else C["red"],
-                                "borderRadius":2,
+                                "borderRadius": 2,
                             }),
                             html.Span(f"{r['efficiency_pct']}%", style={
-                                "marginLeft":8,"fontSize":11,
-                                "color": C["green"] if r["efficiency_pct"]>=88
-                                         else C["accent"] if r["efficiency_pct"]>=75
+                                "marginLeft": 8, "fontSize": 11,
+                                "color": C["green"] if r["efficiency_pct"] >= 88
+                                         else C["accent"] if r["efficiency_pct"] >= 75
                                          else C["red"],
                             }),
                         ], style={"display":"flex","alignItems":"center","width":180})),
@@ -494,7 +532,7 @@ def routes_body():
                                 style={"padding":"10px 14px","color":C["muted"],"fontSize":11}),
                         html.Td(f"${r['total_revenue']/1000:.0f}K",
                                 style={"padding":"10px 14px","color":C["blue"],"fontSize":11}),
-                    ], style={"borderBottom":f"1px solid {C['border']}"})
+                    ], style={"borderBottom": f"1px solid {C['border']}"})
                     for _, r in routes.sort_values("efficiency_pct").iterrows()
                 ]),
             ], style={"width":"100%","borderCollapse":"collapse"}),
