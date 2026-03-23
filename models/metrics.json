@@ -1,0 +1,29 @@
+{
+  "roc_auc": 0.5858,
+  "pr_auc": 0.3169,
+  "cv_roc_auc_mean": 0.5679,
+  "cv_roc_auc_std": 0.0113,
+  "features": [
+    "weather_score",
+    "traffic_index",
+    "route_complexity",
+    "distance_km",
+    "driver_experience",
+    "driver_rating",
+    "departure_hour",
+    "day_of_week",
+    "month",
+    "is_holiday",
+    "is_weekend",
+    "weight_kg",
+    "cargo_type_enc",
+    "planned_hours",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos"
+  ],
+  "n_train": 11507,
+  "n_test": 2877,
+  "delay_rate": 0.2498
+}
