@@ -688,8 +688,6 @@ def update_scenario(fleet, drivers, wh, radius, staff):
 
 # ── Run ───────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    port  = int(os.environ.get("PORT", 8050))
-    debug = os.environ.get("DEBUG", "true").lower() == "true"
+    port = int(os.environ.get("PORT", 8050))
     print(f"\n🚛 Supply Chain Optimizer starting on http://localhost:{port}")
-
-app.run(debug=False, host="0.0.0.0", port=port)
+    app.run(debug=False, host="0.0.0.0", port=port)
