@@ -94,7 +94,7 @@ C = {
     "purple":  "#a78bfa",
     "red":     "#f87171",
     "text":    "#e2e8f0",
-    "muted":   "#64748b",
+    "muted":   "#4a5568",
 }
 
 PLOTLY_LAYOUT = dict(
