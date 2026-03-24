@@ -12,22 +12,28 @@ from plotly.subplots import make_subplots
 import dash
 from dash import dcc, html, Input, Output
 import dash_bootstrap_components as dbc
-# ── Auto-generate route map on startup ───────────────────────────────────────
-try:
-    from route_map import build_route_map
-    assets_dir = os.path.join(BASE, "assets")
-    os.makedirs(assets_dir, exist_ok=True)
-    map_out = os.path.join(assets_dir, "route_map.html")
-    if not os.path.exists(map_out):
-        build_route_map(output_path=map_out)
-        print("✅ Route map generated")
-except Exception as e:
-    print(f"⚠ Route map generation skipped: {e}")
+import sys
 
-# ── Load Data ─────────────────────────────────────────────────────────────────
-BASE = os.path.dirname(__file__)
-PROC = os.path.join(BASE, "..", "data", "processed")
-RAW  = os.path.join(BASE, "..", "data", "raw")
+# BASE defined early so everything can use it
+BASE = os.path.dirname(os.path.abspath(__file__))
+PROC = os.path.join(BASE, '..', 'data', 'processed')
+RAW  = os.path.join(BASE, '..', 'data', 'raw')
+
+# Auto-generate route map at startup
+try:
+    sys.path.insert(0, BASE)
+    from route_map import build_route_map
+    _assets = os.path.join(BASE, 'assets')
+    os.makedirs(_assets, exist_ok=True)
+    _map_out = os.path.join(_assets, 'route_map.html')
+    if not os.path.exists(_map_out):
+        print('Generating route map...')
+        build_route_map(output_path=_map_out)
+        print('Route map generated')
+except Exception as _e:
+    print(f'Route map skipped: {_e}')
+
+
 
 def load(name):
     path = os.path.join(PROC, name)
@@ -460,7 +466,7 @@ def overview_body():
 
 def routes_body():
     # Check if folium map exists
-    map_path = os.path.join(BASE, "..", "assets", "route_map.html")
+    map_path = os.path.join(BASE, "assets", "route_map.html")
     map_exists = os.path.exists(map_path)
 
     return html.Div([
