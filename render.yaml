@@ -3,9 +3,10 @@ services:
     name: supply-chain-optimizer
     env: python
     buildCommand: "pip install -r requirements.txt && python data/generate_dataset.py && python src/preprocessing.py && python src/model_training.py && python src/route_map.py"
-    startCommand: "gunicorn src.dashboard:server --bind 0.0.0.0:$PORT --timeout 120"
+    startCommand: "gunicorn src.dashboard:server --bind 0.0.0.0:$PORT --timeout 300 --workers 1 --threads 2"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: DEBUG
         value: false
+```
