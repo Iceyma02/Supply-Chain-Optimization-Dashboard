@@ -12,6 +12,17 @@ from plotly.subplots import make_subplots
 import dash
 from dash import dcc, html, Input, Output
 import dash_bootstrap_components as dbc
+# ── Auto-generate route map on startup ───────────────────────────────────────
+try:
+    from route_map import build_route_map
+    assets_dir = os.path.join(BASE, "assets")
+    os.makedirs(assets_dir, exist_ok=True)
+    map_out = os.path.join(assets_dir, "route_map.html")
+    if not os.path.exists(map_out):
+        build_route_map(output_path=map_out)
+        print("✅ Route map generated")
+except Exception as e:
+    print(f"⚠ Route map generation skipped: {e}")
 
 # ── Load Data ─────────────────────────────────────────────────────────────────
 BASE = os.path.dirname(__file__)
