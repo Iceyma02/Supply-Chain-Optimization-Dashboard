@@ -314,7 +314,7 @@ Live at: **https://supply-chain-optimization-dashboard.onrender.com**
 ## 👤 Author
 
 **Anesu Manjengwa (Icey)**
-Final Year BCA Student · Data Science & Full-Stack Developer
+ Data Science & Full-Stack Developer
 
 [![GitHub](https://img.shields.io/badge/GitHub-Iceyma02-100000?style=flat&logo=github&logoColor=white)](https://github.com/Iceyma02)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Anesu_Manjengwa-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/anesu-manjengwa-684766247)
